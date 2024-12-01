@@ -27,7 +27,7 @@ module.exports.registerUser = async (req, res, next) => {
   .cookie("token", token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    maxAge: 7 * 24 * 60 * 60 * 1000,
+    maxAge: 1 * 24 * 60 * 60 * 1000,
   })
   .json({ token, user });
 };
@@ -54,7 +54,7 @@ module.exports.loginUser = async (req, res, next) => {
     .cookie("token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      maxAge: 7 * 24 * 60 * 60 * 1000,
+      maxAge: 1 * 24 * 60 * 60 * 1000,
     })
     .json({ token, user });
 };
@@ -65,9 +65,8 @@ module.exports.getUserProfile = async (req, res, next) => {
 
 
 module.exports.logoutUser = async (req,res,next)=>{
-  res.clearCookie("token");
-  const token = req.cookies.token || req.headers.authorization.split(" ")[1];
-
+  const token = req.cookies.token || req.headers?.authorization?.split(" ")[1];
   await blackListTokenModel.create({token});
+  res.clearCookie("token");
   res.status(200).json({message:"Logged out..."})
 }
