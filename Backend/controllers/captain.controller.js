@@ -61,7 +61,7 @@ module.exports.loginCaptain = async (req, res, next) => {
   const token = captain.generateAuthToken();
 
   res
-    .status(201)
+    .status(200)
     .cookie("token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
