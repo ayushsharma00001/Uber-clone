@@ -27,9 +27,6 @@ app.all("*",(req,res,next)=>{
     res.status(404).json({message:"Page not found..."});
 });
 
-app.use((err,req,res,next)=>{
-    res.status(err.statusCode).json({message:err.message});
-})
 
 
 module.exports = app;

@@ -1,43 +1,91 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import CaptainDetails from "../components/CaptainDetails";
 import RidePopUp from "../components/RidePopUp";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import ConfirmRidePopUp from "../components/ConfirmRidePopUp";
+import { SocketContext } from "../context/SocketContext.jsx";
+import axios from "axios";
 
 const CaptainHome = () => {
-  const [ridePopopPanel, setRidePopupPanel] = useState(true)
-  const [confirmRidePopupPanel, setConfirmRidePopupPanel] = useState(false)
+  const [ridePopopPanel, setRidePopupPanel] = useState(false);
+  const [confirmRidePopupPanel, setConfirmRidePopupPanel] = useState(false);
+  const [ride, setRide] = useState(null);
   const ridePopupPanelRef = useRef(null);
   const ConfirmRidePopupPanelRef = useRef(null);
 
-    // gsap for ride Pop up
-    useGSAP(() => {
-      if (ridePopopPanel) {
-        gsap.to(ridePopupPanelRef.current, {
-          transform: "translateY(0)",
-        });
-      } else {
-        gsap.to(ridePopupPanelRef.current, {
-          transform: "translateY(100%)",
+  const { socket } = useContext(SocketContext);
+  const captain = JSON.parse(localStorage.getItem("profile"));
+  useEffect(() => {
+    socket.emit("join", { userType: "captain", userId: captain?._id });
+
+    const updateLocation = () => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position) => {
+          socket.emit("update-location-captain", {
+            captainId: captain._id,
+            location: {
+              ltd: position.coords.latitude,
+              lng: position.coords.longitude,
+            },
+          });
         });
       }
-    }, [ridePopopPanel]);
+    };
+    const locationInterval = setInterval(updateLocation, 10000);
+    updateLocation();
+    return () => clearInterval(locationInterval);
+  }, []);
 
+  socket.on("new-ride", (data) => {
+    setRide(data);
+    setRidePopupPanel(true);
+  });
 
-    // Post confirm ride popup panel
-    useGSAP(() => {
-      if (confirmRidePopupPanel) {
-        gsap.to(ConfirmRidePopupPanelRef.current, {
-          transform: "translateY(0)",
-        });
-      } else {
-        gsap.to(ConfirmRidePopupPanelRef.current, {
-          transform: "translateY(100%)",
-        });
+  async function confirmRide() {
+    const response = await axios.post(
+      `${import.meta.env.VITE_BASE_URL}/rides/confirm`,
+      {
+        rideId: ride._id,
+        captainId: captain._id,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
       }
-    }, [confirmRidePopupPanel]);
+    );
+
+    setRidePopupPanel(false);
+    setConfirmRidePopupPanel(true);
+  }
+
+  // gsap for ride Pop up
+  useGSAP(() => {
+    if (ridePopopPanel) {
+      gsap.to(ridePopupPanelRef.current, {
+        transform: "translateY(0)",
+      });
+    } else {
+      gsap.to(ridePopupPanelRef.current, {
+        transform: "translateY(100%)",
+      });
+    }
+  }, [ridePopopPanel]);
+
+  // Post confirm ride popup panel
+  useGSAP(() => {
+    if (confirmRidePopupPanel) {
+      gsap.to(ConfirmRidePopupPanelRef.current, {
+        transform: "translateY(0)",
+      });
+    } else {
+      gsap.to(ConfirmRidePopupPanelRef.current, {
+        transform: "translateY(100%)",
+      });
+    }
+  }, [confirmRidePopupPanel]);
 
   return (
     <div className="h-screen">
@@ -72,14 +120,17 @@ const CaptainHome = () => {
           <CaptainDetails />
         </div>
 
-
-
         {/* Accept ride panel  */}
         <div
           ref={ridePopupPanelRef}
           className="fixed z-10 bg-white bottom-0 w-full py-6 pt-12 px-3"
         >
-          <RidePopUp setRidePopupPanel={setRidePopupPanel} setConfirmRidePopupPanel={setConfirmRidePopupPanel}/>
+          <RidePopUp
+            setRidePopupPanel={setRidePopupPanel}
+            setConfirmRidePopupPanel={setConfirmRidePopupPanel}
+            ride={ride}
+            confirmRide={confirmRide}
+          />
         </div>
 
         {/* Post accept ride panel  */}
@@ -87,7 +138,11 @@ const CaptainHome = () => {
           ref={ConfirmRidePopupPanelRef}
           className="fixed z-10 bg-white bottom-0 w-full py-6 pt-12 px-3 h-screen"
         >
-          <ConfirmRidePopUp setConfirmRidePopupPanel={setConfirmRidePopupPanel} setRidePopupPanel={setRidePopupPanel}/>
+          <ConfirmRidePopUp
+            ride={ride}
+            setConfirmRidePopupPanel={setConfirmRidePopupPanel}
+            setRidePopupPanel={setRidePopupPanel}
+          />
         </div>
       </div>
     </div>

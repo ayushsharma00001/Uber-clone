@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
+import {useState,useContext,useRef} from "react";
 const Riding = () => {
   return (
     <div className="h-screen">

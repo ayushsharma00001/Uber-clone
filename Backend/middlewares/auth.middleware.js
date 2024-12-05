@@ -5,9 +5,9 @@ const blackListTokenModel = require("../models/blacklistToken.model.js");
 const captainModel = require("../models/captain.model.js");
 
 module.exports.authUser = async (req,res,next)=>{
-    const token = req.cookies.token || req.headers?.authorization?.split(" ")[1];
+    const token = req.cookies.token || req.headers.authorization?.split(" ")[1];
     if(!token){
-        return res.status(401).json({message:"Unauthorized..."});
+        return res.status(401).json({message:"Unauthorized error..."});
     }
     const isBlackListed = await blackListTokenModel.findOne({token});
     if(isBlackListed){

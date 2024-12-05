@@ -35,6 +35,7 @@ const UserSignup = () => {
         return data.user;
       });
       localStorage.setItem("token",data.token)
+      localStorage.setItem("profile", JSON.stringify(data.user));
 
       navigate("/home");
     }

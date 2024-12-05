@@ -34,7 +34,7 @@ router.get("/get-distance-time",[
 router.get("/get-suggestions",[
     query("input")
       .isString()
-      .isLength({ min: 3 })
+      .isLength({ min: 0 })
       .withMessage("Provide Input...")
   ],mapControllers.getAutoCompleteSuggestions)
 

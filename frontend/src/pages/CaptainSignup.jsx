@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
-import { CaptainDataContext } from "../context/captainContext";
+import { CaptainDataContext } from "../context/CaptainContext.jsx";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -42,6 +42,7 @@ const CaptainSignup = () => {
       const data = response.data;
       setCaptain(data.captain);
       localStorage.setItem("token", data.token);
+      localStorage.setItem("profile", JSON.stringify(data.captain));
       navigate("/captain-home");
     }
   };

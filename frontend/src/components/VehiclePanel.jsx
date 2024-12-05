@@ -24,7 +24,8 @@ const VehiclePanel = (props) => {
         {/* Vehicle divs  */}
         <div onClick={()=>{
             props.setVehiclePanelOpen(false);
-            props.setConfirmRidePanel(true)
+            props.setConfirmRidePanel(true);
+            props.selectVehicle("car");
         }} className="flex border-2 mb-2 active:border-black rounded-xl w-full items-center justify-between p-3 ">
           <img
             className="h-14"
@@ -49,12 +50,13 @@ const VehiclePanel = (props) => {
               Affordable, compact rides
             </p>
           </div>
-          <h2 className="font-semibold text-lg"> &#8377;193.20</h2>
+          <h2 className="font-semibold text-lg"> &#8377;{Math.floor(props.fare["car"])}</h2>
         </div>
 
         <div onClick={()=>{
             props.setVehiclePanelOpen(false);
             props.setConfirmRidePanel(true)
+            props.selectVehicle("moto");
         }} className="flex border-2 mb-2 active:border-black rounded-xl w-full items-center justify-between p-3 ">
           <img
             className="h-14"
@@ -79,12 +81,13 @@ const VehiclePanel = (props) => {
               Affordable motorcycle rides
             </p>
           </div>
-          <h2 className="font-semibold text-lg"> &#8377;65.00</h2>
+          <h2 className="font-semibold text-lg"> &#8377;{Math.floor(props.fare["moto"])}</h2>
         </div>
 
         <div onClick={()=>{
             props.setVehiclePanelOpen(false);
             props.setConfirmRidePanel(true)
+            props.selectVehicle("auto");
         }} className="flex border-2 mb-2 active:border-black rounded-xl w-full items-center justify-between p-3 ">
           <img
             className="h-14"
@@ -109,7 +112,7 @@ const VehiclePanel = (props) => {
               Affordable Auto rides
             </p>
           </div>
-          <h2 className="font-semibold text-lg"> &#8377;118.68</h2>
+          <h2 className="font-semibold text-lg"> &#8377;{Math.floor(props.fare["auto"])}</h2>
         </div>
     </div>
   )

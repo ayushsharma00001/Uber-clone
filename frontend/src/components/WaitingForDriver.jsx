@@ -5,7 +5,7 @@ const WaitingForDriver = (props) => {
     <div>
       <div>
         <h5
-            onClick={() => props.waitingForDriverRef(false)}
+            onClick={() => props.setWaitingForDriver(false)}
           className="p-3 absolute top-0 w-[93%] flex items-center justify-center"
         >
           <svg
@@ -25,9 +25,10 @@ const WaitingForDriver = (props) => {
             className="h-12"
           />
           <div className="text-right">
-            <h2 className="text-lg font-medium">Ayush</h2>
-            <h4 className="text-xl font-semibold -mt-1 -mb-1">RJ14 PA 0000</h4>
-            <p className="text-sm text-gray-600">Maruti Suzuki Alto</p>
+            <h2 className="text-lg font-medium capitalize">{props.ride?.captain.fullname.firstname} {props.ride?.captain.fullname.lastname}</h2>
+            <h4 className="text-xl font-semibold -mt-1 -mb-1">{props.ride?.captain.vehicle.plate}</h4>
+            <p className="text-sm text-gray-600">{props.ride?.captain.vehicle.vehicleType}</p>
+            <h1 className="text-lg font-semibold">{props.ride?.otp}</h1>
           </div>
         </div>
 
@@ -43,9 +44,9 @@ const WaitingForDriver = (props) => {
                 <path d="M18.364 17.364L12 23.7279L5.63604 17.364C2.12132 13.8492 2.12132 8.15076 5.63604 4.63604C9.15076 1.12132 14.8492 1.12132 18.364 4.63604C21.8787 8.15076 21.8787 13.8492 18.364 17.364ZM12 13C13.1046 13 14 12.1046 14 11C14 9.89543 13.1046 9 12 9C10.8954 9 10 9.89543 10 11C10 12.1046 10.8954 13 12 13Z"></path>
               </svg>
               <div className="flex justify-center flex-col">
-                <h3 className="text-lg font-medium">562/11-A</h3>
+                <h3 className="text-lg font-medium">Pickup</h3>
                 <p className="text-sm text-gray-600 -mt-1">
-                  Kankariya Talab, Ahemedabad
+                {props.ride?.pickup}
                 </p>
               </div>
             </div>
@@ -59,9 +60,10 @@ const WaitingForDriver = (props) => {
                 <path d="M12 14V16C8.68629 16 6 18.6863 6 22H4C4 17.5817 7.58172 14 12 14ZM12 13C8.685 13 6 10.315 6 7C6 3.685 8.685 1 12 1C15.315 1 18 3.685 18 7C18 10.315 15.315 13 12 13ZM12 11C14.21 11 16 9.21 16 7C16 4.79 14.21 3 12 3C9.79 3 8 4.79 8 7C8 9.21 9.79 11 12 11ZM20.8284 21.0711L18 24L15.1716 21.0711C13.6095 19.4535 13.6095 16.8308 15.1716 15.2132C16.7337 13.5956 19.2663 13.5956 20.8284 15.2132C22.3905 16.8308 22.3905 19.4535 20.8284 21.0711ZM19.3897 19.6818C20.2034 18.8392 20.2034 17.4451 19.3897 16.6025C18.614 15.7992 17.386 15.7992 16.6103 16.6025C15.7966 17.4451 15.7966 18.8392 16.6103 19.6818L18 21.1209L19.3897 19.6818Z"></path>
               </svg>
               <div className="flex justify-center flex-col">
-                <h3 className="text-lg font-medium">562/11-A</h3>
+                <h3 className="text-lg font-medium">Destination</h3>
                 <p className="text-sm text-gray-600 -mt-1">
-                  Kankariya Talab, Ahemedabad
+                {props.ride?.destination}
+
                 </p>
               </div>
             </div>
