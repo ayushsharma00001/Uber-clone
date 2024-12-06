@@ -249,7 +249,7 @@ const Home = () => {
 
       {/* Adresses panel  */}
       <div className="absolute top-0 w-full h-screen flex flex-col justify-end">
-        <div className="h-[30%] p-6 bg-white relative">
+        <div className="h-[30%] p-2 bg-white relative">
           <h5
             ref={panelCloseRef}
             onClick={() => setPanelOpen(false)}
@@ -270,9 +270,9 @@ const Home = () => {
               submitHandler(e);
             }}
           >
-            <div className="line absolute h-16 top-[45%] left-10 w-1 bg-gray-900 rounded-full"></div>
+            <div className="line absolute h-16 top-[30%] left-10 w-1 bg-gray-900 rounded-full"></div>
             <input
-              className="bg-[#eee] px-12 py-2 text-lg rounded-lg w-full mt-5"
+              className="bg-[#eee] px-12 py-2 text-base rounded-lg w-full mt-2"
               type="text"
               placeholder="Add a pick-up location"
               value={pickup}
@@ -283,7 +283,7 @@ const Home = () => {
               onChange={handlePickupChange}
             />
             <input
-              className="bg-[#eee] px-12 py-2 text-lg rounded-lg w-full mt-3"
+              className="bg-[#eee] px-12 py-2 text-base rounded-lg w-full mt-2"
               type="text"
               placeholder="Add your destination"
               value={destination}
