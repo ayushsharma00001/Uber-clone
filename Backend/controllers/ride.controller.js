@@ -26,10 +26,12 @@ module.exports.createRide = async(req,res)=>{
 
         const rideWithUser = await rideModel.findOne({_id:ride._id}).populate("user");
         captainsInRadius.map(captain =>{
-            sendMessageToSocketId(captain.socketId,{
-                event:"new-ride",
-                data:rideWithUser
-            });
+            if(captain.vehicle.vehicleType === vehicleType){
+                sendMessageToSocketId(captain.socketId,{
+                    event:"new-ride",
+                    data:rideWithUser
+                });
+            }
         })
 
     } catch (error) {
@@ -90,11 +92,29 @@ module.exports.startRide = async (req,res,next)=>{
 
     try {
         const ride = await rideService.startRide({rideId,otp,captain:req.captain})
-        // sendMessageToSocketId(ride.user.socketId,{
-        //     event:"ride-started",
-        //     data:ride
-        // });
         return res.status(200).json(ride)
+    } catch (error) {
+        return res.status(500).json({message:error.message});
+        
+    }
+}
+
+
+module.exports.endRide = async (req,res,next)=>{
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { rideId } = req.body;
+
+    try {
+        const ride = await rideService.endRide({rideId,captain:req.captain})
+        sendMessageToSocketId(ride.user.socketId,{
+            event:"ride-ended",
+            data:ride
+        })
+        return res.status(200).json(ride);
     } catch (error) {
         return res.status(500).json({message:error.message});
         

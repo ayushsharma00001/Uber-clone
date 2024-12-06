@@ -9,6 +9,7 @@ import WaitingForDriver from "../components/WaitingForDriver";
 import axios from "axios";
 import {SocketContext} from "../context/SocketContext.jsx";
 import {useNavigate} from "react-router-dom";
+import LiveTracking from "../components/LiveTracking.jsx";
 
 const Home = () => {
   const [pickup, setPickup] = useState("");
@@ -229,7 +230,6 @@ const Home = () => {
           },
         }
       );
-      console.log(response.data);
     } catch (error) {
       console.log(error);
     }
@@ -244,11 +244,7 @@ const Home = () => {
       />
 
       <div className="h-screen w-screen ">
-        {/* Image for temporary use  */}
-        <img
-          className="h-full w-full object-cover"
-          src="https://blog.uber-cdn.com/cdn-cgi/image/width=2160,quality=80,onerror=redirect,format=auto/wp-content/uploads/2019/07/CRM_180435-COR-D-US-BP1_HI1_2160x1080.jpg"
-        />
+        <LiveTracking className="h-full w-full object-cover"/>
       </div>
 
       {/* Adresses panel  */}
@@ -341,7 +337,7 @@ const Home = () => {
       {/* Confirm your Ride panel  */}
       <div
         ref={confirmRidePanelRef}
-        className="z-20 fixed bg-white bottom-0 translate-y-full w-full py-6 pt-12 px-3"
+        className="z-100 fixed bg-white bottom-0 translate-y-full w-full py-6 pt-12 px-3"
       >
         <ConfirmedRide
           createRide={createRide}
