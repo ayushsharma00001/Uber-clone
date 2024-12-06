@@ -143,7 +143,7 @@ const Home = () => {
       });
     } else {
       gsap.to(vehiclePanelRef.current, {
-        transform: "translateY(100%)",
+        transform: "translateY(200%)",
         opacity:0
       });
     }
@@ -158,7 +158,7 @@ const Home = () => {
       });
     } else {
       gsap.to(vehicleFoundRef.current, {
-        transform: "translateY(100%)",
+        transform: "translateY(200%)",
         opacity:0
       });
     }
@@ -173,7 +173,7 @@ const Home = () => {
       });
     } else {
       gsap.to(confirmRidePanelRef.current, {
-        transform: "translateY(100%)",
+        transform: "translateY(200%)",
         opacity: 0,
       });
     }
@@ -188,7 +188,7 @@ const Home = () => {
       });
     } else {
       gsap.to(waitingForDriverRef.current, {
-        transform: "translateY(100%)",
+        transform: "translateY(200%)",
         opacity:0
       });
     }
@@ -324,7 +324,7 @@ const Home = () => {
       {/* Vehicle panel  */}
       <div
         ref={vehiclePanelRef}
-        className="fixed z-10 bg-white bottom-0 translate-y-full w-full py-6 px-3 pt-12"
+        className="fixed z-10 bg-white bottom-0 translate-y-[200%] w-full py-6 px-3 pt-12"
       >
         <VehiclePanel
           fare={fare}
@@ -337,7 +337,7 @@ const Home = () => {
       {/* Confirm your Ride panel  */}
       <div
         ref={confirmRidePanelRef}
-        className="z-100 fixed bg-white bottom-0 translate-y-full w-full py-6 pt-12 px-3"
+        className="z-100 fixed bg-white bottom-0 translate-y-[200%] w-full py-6 pt-12 px-3"
       >
         <ConfirmedRide
           createRide={createRide}
@@ -354,7 +354,7 @@ const Home = () => {
       {/* Looking for ride panel  */}
       <div
         ref={vehicleFoundRef}
-        className="fixed z-30 bg-white bottom-0 translate-y-full w-full py-6 pt-12 px-3"
+        className="fixed z-30 bg-white bottom-0 translate-y-[200%] w-full py-6 pt-12 px-3"
       >
         <LookingForDriver
           pickup={pickup}
